@@ -71,6 +71,7 @@
 
     buildAddthisHtml: function (buttons) {
 
+      // all possible services: http://www.addthis.com/services/list
       var services = {
           email: {
             className: 'addthis_button_email',
