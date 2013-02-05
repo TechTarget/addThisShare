@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+
+  <meta charset="utf-8">
+  <title>AddThis Component Tests</title>
+  <link rel="stylesheet" href="css/style.css" media="screen" />
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+  <script src="../addThisShare.js"></script>
+  <script>
+
+    $(document).on('ready', function() {
+
+    console.log(typeof window.addthis);
+
+      window.addthis_share = {
+        templates : {
+          twitter : "{{title}} {{url}} (via @[Your Twitter Username])"
+        }
+      };
+      var iconSize = {
+        small: 'addthis_default_style',
+        medium: 'addthis_20x20_style',
+        large: 'addthis_32x32_style'
+      };
+
+      var shareButtons = $('<div class="socialShare-addThis vertical ' + iconSize.large + '"></div>');
+      $('#micrositeContent').prepend(shareButtons);
+
+      // should be able to configure this
+      var addThisVersion = 300; // 150, 200, 250, 300
+
+      // global configuration object
+      window.addthis_config = {
+        pubid: 'ra-4f0c7ed813520536',
+        url: window.location.pathname,
+        ui_use_css: true,
+        domready: true,
+        async: true,
+        data_track_clickback: false,
+        data_track_addressbar: true,
+        data_ga_tracker: window.SITE_gaAccountID || null,
+        data_ga_social : true
+      };
+
+      var tbx = shareButtons.get(0),
+          services = {
+            // google_plusone_share: 'Share on Google+',
+            email: 'Email A Friend',
+            linkedin: 'Share on LinkedIn',
+            facebook: 'Share on Facebook',
+            twitter: 'Share on Twitter'
+          };
+
+      var foo = '';
+
+      for (var service in services) {
+        foo += '<a class="addthis_button_' + service + '" title="' + services[service] + '"></a>';
+      }
+
+
+      tbx.innerHTML = foo;
+
+      $.ajax({
+        url: '//s7.addthis.com/js/300/addthis_widget.js',
+        cache: true,
+        dataType: 'script'
+      }).done( function () {
+        console.log(typeof window.addthis);
+      });
+
+      // var toolbox = $('.socialShare-addThis');
+      // var toolboxHeight;
+      // var col = $('#micrositeContentColumnLeft');
+      // var colHeight = col.outerHeight();
+      // var colTop = col.offset().top;
+      // var colOffset = colHeight + colTop;
+      // var winScroll;
+
+      // // quick kludge to prevent toolbar from scrolling past main content
+      // // this really need to be rewritten into something non-stupid
+      // $(window).on('scroll', function(){
+      //   toolboxHeight = toolbox.outerHeight();
+      //   winScroll = $(this).scrollTop();
+      //   var getPos = function() {
+
+      //     var obj = {
+      //       'top': Math.max(10,colTop-winScroll),
+      //       'position': 'fixed'
+      //     };
+
+      //     var adjust = colOffset - toolboxHeight;
+      //     console.log(adjust);
+      //     if (winScroll > adjust) {
+      //       obj.position = 'absolute';
+      //       obj.top = adjust;
+      //     }
+
+      //     return obj;
+      //   };
+      //   toolbox.css(getPos());
+      // });
+
+    });
+
+  </script>
+
+</head>
+<body>
+<div id="micrositeContainer">
+<div id="micrositeContainerInner">
+<div id="micrositeContainerCompress">
+
+  <div id="micrositeHeader">
+
+    <h2>Header</h2>
+
+  </div>
+
+  <div id="micrositeContent">
+
+    <div id="micrositeContentColumnFull">
+
+      <p>Lorem ipsum dolor sit amet, iracundia consequat ei est. Ei oratio aperiri nam. Aliquid consulatu vix ea, hinc choro fierent qui ex. In probo nonumy nam, nihil vocent offendit te quo, qui no harum dictas volutpat. Eius dicta at nec. Quo in oporteat suavitate dignissim. Sea legere definitionem ne, aliquip principes consequat vix te, saperet antiopam an mel.</p>
+
+    </div>
+
+    <div id="micrositeContentColumnLeft">
+
+      <p>In scaevola molestiae vel, his eu omittam insolens. Ut his sale tritani, nam eu corpora argumentum eloquentiam, vim unum forensibus et. Ne alia atomorum cum. Eu interesset ullamcorper eos, cum ea quando intellegat. In mel dissentiunt intellegebat, quem illud te eos. Est ornatus legimus recteque ad, te oblique nonumes ius, ex paulo scaevola nec.</p>
+
+      <p>In scaevola molestiae vel, his eu omittam insolens. Ut his sale tritani, nam eu corpora argumentum eloquentiam, vim unum forensibus et. Ne alia atomorum cum. Eu interesset ullamcorper eos, cum ea quando intellegat. In mel dissentiunt intellegebat, quem illud te eos. Est ornatus legimus recteque ad, te oblique nonumes ius, ex paulo scaevola nec.</p>
+
+      <p>In scaevola molestiae vel, his eu omittam insolens. Ut his sale tritani, nam eu corpora argumentum eloquentiam, vim unum forensibus et. Ne alia atomorum cum. Eu interesset ullamcorper eos, cum ea quando intellegat. In mel dissentiunt intellegebat, quem illud te eos. Est ornatus legimus recteque ad, te oblique nonumes ius, ex paulo scaevola nec.</p>
+
+      <p>In scaevola molestiae vel, his eu omittam insolens. Ut his sale tritani, nam eu corpora argumentum eloquentiam, vim unum forensibus et. Ne alia atomorum cum. Eu interesset ullamcorper eos, cum ea quando intellegat. In mel dissentiunt intellegebat, quem illud te eos. Est ornatus legimus recteque ad, te oblique nonumes ius, ex paulo scaevola nec.</p>
+
+      <p>In scaevola molestiae vel, his eu omittam insolens. Ut his sale tritani, nam eu corpora argumentum eloquentiam, vim unum forensibus et. Ne alia atomorum cum. Eu interesset ullamcorper eos, cum ea quando intellegat. In mel dissentiunt intellegebat, quem illud te eos. Est ornatus legimus recteque ad, te oblique nonumes ius, ex paulo scaevola nec.</p>
+
+    </div>
+
+    <div id="micrositeContentColumnRight">
+
+      <p>Et vel nihil discere delicata, pro autem fierent definitiones ea. Purto nostro tacimates in sea. Vel ea habeo pertinacia, has amet tollit suavitate te. Et quodsi rationibus cum. In eos dicta sanctus, adhuc civibus ad ius. Duo corrumpit incorrupte cu. Illum molestie mel cu, qui ei prompta bonorum probatus.</p>
+
+      <ul>
+      <li><a href="#">insolens</a></li>
+      <li><a href="#">fierent</a></li>
+      <li><a href="#">nostro</a></li>
+      <li><a href="#">scaevola</a></li>
+      </ul>
+
+      <p>Et vel nihil discere delicata, pro autem fierent definitiones ea. Purto nostro tacimates in sea. Vel ea habeo pertinacia, has amet tollit suavitate te. Et quodsi rationibus cum. In eos dicta sanctus, adhuc civibus ad ius. Duo corrumpit incorrupte cu. Illum molestie mel cu, qui ei prompta bonorum probatus.</p>
+
+      <p>Et vel nihil discere delicata, pro autem fierent definitiones ea. Purto nostro tacimates in sea. Vel ea habeo pertinacia, has amet tollit suavitate te. Et quodsi rationibus cum. In eos dicta sanctus, adhuc civibus ad ius. Duo corrumpit incorrupte cu. Illum molestie mel cu, qui ei prompta bonorum probatus.</p>
+
+    </div>
+
+  </div>
+
+  <div id="micrositeFooter">
+
+    <h2>Footer</h2>
+
+  </div>
+
+</div>
+</div>
+</div>
+</body>
+</html>

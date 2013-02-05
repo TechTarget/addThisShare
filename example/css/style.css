@@ -35,28 +35,37 @@ a { color: #2ba6cb; text-decoration: none; }
 a:hover { color: #2795b6; }
 a:focus { color: #2ba6cb; outline: none; }
 #micrositeContainerCompress { background-color: #fff; margin: 0 auto; width: 980px; }
-#micrositeContent { overflow: hidden; }
 #micrositeHeader,
 #micrositeFooter,
 #micrositeContentColumnFull,
 #micrositeContentColumnLeft,
-#micrositeContentColumnRight { background: #f2f2f2; border: solid 1px #e6e6e6; padding: 25px; }
+#micrositeContentColumnRight { background: #f2f2f2; border: solid 1px #e6e6e6; padding: 25px; position: relative; }
 #micrositeContentColumnFull { margin: 0 25px 25px; }
 #micrositeContentColumnLeft { margin: 0 0 25px 25px; float: left; width: 500px; }
 #micrositeContentColumnRight { margin: 0 25px 25px 0; float: right; width: 300px;}
-#micrositeHeader { margin: 0 0 25px; position: relative; }
-#micrositeFooter { margin: 0; }
-
+#micrositeHeader { margin: 0 0 25px; }
+#micrositeFooter { margin: 0; clear: both; }
+#micrositeContent { position: relative; }
 
 
 /* social sharing via AddThis */
-.socialShare-addThis { position: absolute; }
-.socialShare-addThis a { display: inline-block; height: 16px; width: 16px; margin: 0 0 0 5px; background: transparent url(../images/spriteSocialMedia.png) 0 0 no-repeat; }
-a.socialShareButton-email { background-position: 0 0; }
-a.socialShareButton-facebook { background-position: -18px 0; }
-a.socialShareButton-linkedin { background-position: -36px 0; }
-a.socialShareButton-twitter { background-position: -54px 0; }
-a.socialShareButton-googleplus { background-position: -72px 0; }
-
-
+.socialShare-addThis { position: absolute; z-index: 1; }
+.socialShare-addThis a { display: inline-block; margin: 0 0 0 5px !important; padding: 0 !important; }
+.addThisVertical {
+  background: rgb(255,255,255); /* Old browsers */
+  background: -moz-linear-gradient(left,  rgba(255,255,255,1) 85%, rgba(221,221,221,1) 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, right top, color-stop(85%,rgba(255,255,255,1)), color-stop(100%,rgba(221,221,221,1))); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(left,  rgba(255,255,255,1) 85%,rgba(221,221,221,1) 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(left,  rgba(255,255,255,1) 85%,rgba(221,221,221,1) 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(left,  rgba(255,255,255,1) 85%,rgba(221,221,221,1) 100%); /* IE10+ */
+  background: linear-gradient(to right,  rgba(255,255,255,1) 85%,rgba(221,221,221,1) 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#dddddd',GradientType=1 ); /* IE6-9 */
+}
+.addThisVertical a { display: block; margin: 10px !important;}
+.addThisVertical.addthis_default_style { width: 36px; left: -36px; }
+.addThisVertical.addthis_20x20_style { width: 40px; left: -40px; }
+.addThisVertical.addthis_32x32_style { width: 52px; left: -52px; }
+.addThisVertical { *margin-left: -685px; } /* ie7 hack */
 #micrositeHeader .socialShare-addThis { right: 25px; top: 50px; }
+#micrositeFooter .socialShare-addThis { right: 25px; top: 50px; }
+#micrositeContent .socialShare-addThis { top: 20px; }

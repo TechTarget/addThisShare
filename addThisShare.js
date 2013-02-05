@@ -1,5 +1,5 @@
 /*!
-* AddThis Share v1.0.1 (http://okize.github.com/)
+* AddThis Share v1.0.0 (http://okize.github.com/)
 * Copyright (c) 2013 | Licensed under the MIT license - http://www.opensource.org/licenses/mit-license.php
 */
 
@@ -19,7 +19,12 @@
   // defaults
   var pluginName = 'addThisShare';
   var defaults = {
-    property: true // asdf
+    addThisVersion: '300', // 300, 250, 200, 150
+    addThisButtons: ['email', 'linkedin', 'facebook', 'twitter'], // email, linkedin, facebook, twitter, googleplus, addthis
+    addThisCss: true, // set to false to disable addthis styles
+    addThisButtonSize: 'small', // small, medium, large,
+    addThisButtonOrientation: 'horizontal', // horizontal, vertical
+    googleAnalyticsId: false // include GA Account Id for tracking
   };
 
   // plugin constructor
@@ -33,16 +38,123 @@
 
     init: function() {
 
-      this.$element = $(this.el); // featured Share component dom container
+      this.$el = $(this.el); // featured Share component dom container
+      this.addThisScript = '//s7.addthis.com/js/' + this.options.addThisVersion + '/addthis_widget.js'; // url of addthis script
+      this.addThisConfiguration = {
+        pubid: 'ra-4f0c7ed813520536', // change this to whatever profile should be used
+        url: window.location.pathname,
+        ui_use_css: this.options.addThisCss,
+        domready: true,
+        async: true,
+        data_track_clickback: false,
+        data_track_addressbar: true,
+        data_ga_tracker: window.SITE_gaAccountID || false,
+        data_ga_social: true
+      };
 
-      // asdf
-      this.foo();
+      // window.addthis_share = {
+      //   templates : {
+      //     twitter : "{{title}} {{url}} (via @[Your Twitter Username])"
+      //   }
+      // };
+
+      var self = this;
+      // callback fired after script loaded so should be safe to display
+      this.loadAddthisScript( function () {
+        if (self.isAddthisLoaded() === false) {
+          window.addthis_config = self.addThisConfiguration;
+        }
+        self.$el.append( self.buildAddthisHtml( self.options.addThisButtons ) );
+      });
 
     },
 
-    foo: function (bar) {
+    buildAddthisHtml: function (buttons) {
 
-      return bar;
+      var services = {
+          email: {
+            className: 'addthis_button_email',
+            title: 'Email A Friend'
+          },
+          linkedin: {
+            className: 'addthis_button_linkedin',
+            title: 'Share on LinkedIn'
+          },
+          facebook: {
+            className: 'addthis_button_facebook',
+            title: 'Share on Facebook'
+          },
+          twitter: {
+            className: 'addthis_button_twitter',
+            title: 'Share on Twitter'
+          },
+          googleplus: {
+            className: 'addthis_button_google_plusone_share',
+            title: 'Share on Google+'
+          },
+          addthis: {
+            className: 'addthis_button_compact',
+            title: "Share with AddThis Services"
+          }
+      };
+
+      // class names for various icon sizes from addthis
+      var iconSizes = {
+        small: 'addthis_default_style',
+        medium: 'addthis_20x20_style',
+        large: 'addthis_32x32_style'
+      };
+
+      // class names for different button orientations
+      var buttonOrientation = {
+        horizontal: 'addThisHorizontal',
+        vertical: 'addThisVertical'
+      };
+
+      // creates the html for the buttons that addthis consumes and returns as icons
+      var addThisButtonHtml = function (buttons) {
+        var html = '';
+        for (var i = 0, len = buttons.length; i < len; i++) {
+          if (buttons[i] in services) {
+            html += '<a class="' + services[ buttons[i] ].className + '" title="' + services[ buttons[i] ].title + '" href="#"></a>';
+          }
+        }
+        return html;
+      };
+
+      // div that holds the buttons for addthis services
+      var addThisButtonsContainer = $('<div>', {
+        'class': 'socialShare-addThis ' + buttonOrientation[this.options.addThisButtonOrientation] + ' ' + iconSizes[this.options.addThisButtonSize],
+        html: addThisButtonHtml( buttons )
+      });
+
+      return addThisButtonsContainer;
+
+    },
+
+    isAddthisLoaded: function () {
+
+      // check for global addthis object
+      if (typeof window.addthis === 'undefined') {
+        return false;
+      } else {
+        return true;
+      }
+
+    },
+
+    loadAddthisScript: function (callback) {
+
+      // load addthis script (cache:true prevents it from being loaded multiple times)
+      $.ajax({
+        url: this.addThisScript,
+        cache: true,
+        dataType: 'script'
+      }).done(function () {
+        if (typeof callback !== 'undefined') {
+          callback.call();
+        }
+      });
 
     }
 
