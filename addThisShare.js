@@ -19,11 +19,12 @@
   // defaults
   var pluginName = 'addThisShare';
   var defaults = {
-    addThisVersion: '300', // 300, 250, 200, 150
+    addThisApiVersion: '300', // 300, 250, 200, 150
     addThisButtons: ['email', 'linkedin', 'facebook', 'twitter'], // email, linkedin, facebook, twitter, googleplus, addthis
     addThisCss: true, // set to false to disable addthis styles
     addThisButtonSize: 'small', // small, medium, large,
     addThisButtonOrientation: 'horizontal', // horizontal, vertical
+    addThisButtonFollow: false, // enable to allow the buttons to 'follow' while scrolling
     googleAnalyticsId: false // include GA Account Id for tracking
   };
 
@@ -39,7 +40,7 @@
     init: function() {
 
       this.$el = $(this.el); // featured Share component dom container
-      this.addThisScript = '//s7.addthis.com/js/' + this.options.addThisVersion + '/addthis_widget.js'; // url of addthis script
+      this.addThisScript = '//s7.addthis.com/js/' + this.options.addThisApiVersion + '/addthis_widget.js'; // url of addthis script
       this.addThisConfiguration = {
         pubid: 'ra-4f0c7ed813520536', // change this to whatever profile should be used
         url: window.location.pathname,
@@ -57,11 +58,10 @@
       //     twitter : "{{title}} {{url}} (via @[Your Twitter Username])"
       //   }
       // };
-
       var self = this;
       // callback fired after script loaded so should be safe to display
       this.loadAddthisScript( function () {
-        if (self.isAddthisLoaded() === false) {
+        if (self.isAddthisLoaded() === true && typeof window.addthis_config === 'undefined') {
           window.addthis_config = self.addThisConfiguration;
         }
         self.$el.append( self.buildAddthisHtml( self.options.addThisButtons ) );
