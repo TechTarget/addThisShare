@@ -1,5 +1,5 @@
 /*!
-* AddThis Share v1.0.0 (http://okize.github.com/)
+* AddThis Share v1.0.2 (http://okize.github.com/)
 * Copyright (c) 2013 | Licensed under the MIT license - http://www.opensource.org/licenses/mit-license.php
 */
 
@@ -25,6 +25,7 @@
     addThisButtonSize: 'small', // small, medium, large,
     addThisButtonOrientation: 'horizontal', // horizontal, vertical
     addThisButtonFollow: false, // enable to allow the buttons to 'follow' while scrolling
+    addThisButtonFollowBoundary: '', // pass selector to override default bounds to follow functionality
     googleAnalyticsId: false // include GA Account Id for tracking
   };
 
@@ -40,6 +41,7 @@
     init: function() {
 
       this.$el = $(this.el); // featured Share component dom container
+      this.addThisButtonsContainer = {}; // will hold reference to jq object of buttons parent div
       this.addThisScript = '//s7.addthis.com/js/' + this.options.addThisApiVersion + '/addthis_widget.js'; // url of addthis script
       this.addThisConfiguration = {
         pubid: 'ra-4f0c7ed813520536', // change this to whatever profile should be used
@@ -48,7 +50,7 @@
         domready: true,
         async: true,
         data_track_clickback: false,
-        data_track_addressbar: true,
+        data_track_addressbar: false,
         data_ga_tracker: window.SITE_gaAccountID || false,
         data_ga_social: true
       };
@@ -58,16 +60,48 @@
       //     twitter : "{{title}} {{url}} (via @[Your Twitter Username])"
       //   }
       // };
+
       var self = this;
+
       // callback fired after script loaded so should be safe to display
       this.loadAddthisScript( function () {
         if (self.isAddthisLoaded() === true && typeof window.addthis_config === 'undefined') {
           window.addthis_config = self.addThisConfiguration;
         }
         self.$el.append( self.buildAddthisHtml( self.options.addThisButtons ) );
+        if (self.options.addThisButtonFollow) {
+          self.initializeFollow();
+        }
       });
 
     },
+
+    isAddthisLoaded: function () {
+
+      // check for global addthis object
+      if (typeof window.addthis === 'undefined') {
+        return false;
+      } else {
+        return true;
+      }
+
+    },
+
+    loadAddthisScript: function (callback) {
+
+      // load addthis script (cache:true prevents it from being loaded multiple times)
+      $.ajax({
+        url: this.addThisScript,
+        cache: true,
+        dataType: 'script'
+      }).done(function () {
+        if (typeof callback !== 'undefined') {
+          callback.call();
+        }
+      });
+
+    },
+
 
     buildAddthisHtml: function (buttons) {
 
@@ -129,33 +163,52 @@
         html: addThisButtonHtml( buttons )
       });
 
+      this.addThisButtonsContainer = addThisButtonsContainer;
+
       return addThisButtonsContainer;
 
     },
 
-    isAddthisLoaded: function () {
+    initializeFollow: function () {
 
-      // check for global addthis object
-      if (typeof window.addthis === 'undefined') {
-        return false;
-      } else {
-        return true;
-      }
+      // the jq object of the button container
+      var el = this.addThisButtonsContainer,
+          elOffest = el.offset().top,
+          elPadding = parseInt( el.css('top'), 0),
+          elHeight,
+          adjust,
+          bounds,
+          boundsHeight = this.$el.height(),
+          win = $(window),
+          winScroll;
 
-    },
+      // @todo, fix this hot mess
+      win.on('scroll', function () {
 
-    loadAddthisScript: function (callback) {
+        var getPos = function() {
 
-      // load addthis script (cache:true prevents it from being loaded multiple times)
-      $.ajax({
-        url: this.addThisScript,
-        cache: true,
-        dataType: 'script'
-      }).done(function () {
-        if (typeof callback !== 'undefined') {
-          callback.call();
-        }
+          // this is frustrating
+          if (typeof elHeight === 'undefined') {
+            elHeight = el.height();
+          }
+
+          winScroll = win.scrollTop();
+
+          adjust = Math.max(elPadding, winScroll - (elOffest - (2*elPadding)));
+          bounds = boundsHeight - elHeight;
+
+          var obj = {
+            'top': (adjust < bounds) ? adjust : bounds
+          };
+
+          return obj;
+
+        };
+
+        el.css(getPos());
+
       });
+
 
     }
 
