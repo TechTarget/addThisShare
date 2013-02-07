@@ -57,7 +57,7 @@
 
       // window.addthis_share = {
       //   templates : {
-      //     twitter : "{{title}} {{url}} (via @[Your Twitter Username])"
+      //     twitter : '{{title}} {{url}} (via @[Your Twitter Username])'
       //   }
       // };
 
@@ -129,7 +129,7 @@
           },
           addthis: {
             className: 'addthis_button_compact',
-            title: "Share with AddThis Services"
+            title: 'Share with AddThis Services'
           }
       };
 
@@ -171,7 +171,6 @@
 
     initializeFollow: function () {
 
-      // the jq object of the button container
       var el = this.addThisButtonsContainer,
           elOffest = el.offset().top,
           elPadding = parseInt( el.css('top'), 0),
@@ -208,7 +207,6 @@
         el.css(getPos());
 
       });
-
 
     }
 

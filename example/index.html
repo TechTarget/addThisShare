@@ -11,7 +11,18 @@
 
     $(document).on('ready', function() {
 
-      $('#micrositeHeader').addThisShare();
+      $('#micrositeHeader').addThisShare({
+        addThisButtons: ['email', 'twitter', 'addthis'],
+        addThisButtonSize: 'large'
+      });
+
+      $('#micrositeContent').addThisShare({
+        addThisButtonOrientation: 'vertical',
+        addThisButtonSize: 'large',
+        addThisButtonFollow: true
+      });
+
+      $('#micrositeFooter').addThisShare();
 
     });
 
