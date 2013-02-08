@@ -173,38 +173,30 @@
 
       var el = this.addThisButtonsContainer,
           elOffest = el.offset().top,
-          elPadding = parseInt( el.css('top'), 0),
+          elPadding = 2 * (parseInt( el.css('top'), 0)),
           elHeight,
           adjust,
           bounds,
           boundsHeight = this.$el.height(),
-          win = $(window),
-          winScroll;
+          win = $(window);
 
-      // @todo, fix this hot mess
       win.on('scroll', function () {
 
-        var getPos = function() {
+        var getPos = function () {
 
           // this is frustrating
           if (typeof elHeight === 'undefined') {
             elHeight = el.height();
           }
 
-          winScroll = win.scrollTop();
-
-          adjust = Math.max(elPadding, winScroll - (elOffest - (2*elPadding)));
+          adjust = Math.max(elPadding, win.scrollTop() - (elOffest - elPadding));
           bounds = boundsHeight - elHeight;
 
-          var obj = {
-            'top': (adjust < bounds) ? adjust : bounds
-          };
-
-          return obj;
+          return (adjust < bounds) ? adjust : bounds;
 
         };
 
-        el.css(getPos());
+        el.css('top', getPos());
 
       });
 
