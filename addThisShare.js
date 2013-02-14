@@ -98,10 +98,17 @@
         if (typeof callback !== 'undefined') {
           callback.call();
         }
+        // addthis.user.ready(function (data){
+        //   console.log(data);
+        // });
+        var addthisReady = function (evt) {
+            console.log('AddThis API is fully loaded.');
+            console.log(evt);
+        };
+        window.addthis.addEventListener('addthis.ready', addthisReady);
       });
 
     },
-
 
     buildAddthisHtml: function (buttons) {
 
@@ -179,6 +186,7 @@
           bounds,
           boundsHeight = this.$el.height(),
           win = $(window);
+            console.log(el.height());
 
       win.on('scroll', function () {
 
