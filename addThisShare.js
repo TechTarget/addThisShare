@@ -58,23 +58,33 @@
 
       var self = this;
 
-      // callback fired after script loaded so should be safe to display
-      this.loadAddthisScript( function () {
-        if (self.isAddthisLoaded() === true && typeof window.addthis_config === 'undefined') {
-          window.addthis_config = self.addThisConfiguration;
-          window.addthis_share = { templates: { twitter: self.options.addThisTwitterTemplate }};
-        }
-        self.$el.append( self.buildAddthisHtml( self.options.addThisButtons ) );
-        if (self.options.addThisButtonFollow) {
-          self.initializeFollow();
-        }
-      });
+      if (!this.isAddThisLoaded) {
+
+        // callback fired after script loaded so should be safe to display
+        this.loadAddthisScript( function () {
+          if (self.isAddthisLoaded() === true && typeof window.addthis_config === 'undefined') {
+            window.addthis_config = self.addThisConfiguration;
+            window.addthis_share = { templates: { twitter: self.options.addThisTwitterTemplate }};
+          }
+          self.$el.append( self.buildAddthisHtml( self.options.addThisButtons ) );
+          if (self.options.addThisButtonFollow) {
+            self.initializeFollow();
+          }
+
+          self.addThisButtonsContainer.show();
+
+        });
+
+      }
 
     },
 
     isAddthisLoaded: function () {
 
       // check for global addthis object
+      // doesn't seem to be a public method for getting version loaded
+      // otherwise there should be a check here to compare version loaded is
+      // the same as the version requested in the plugin init
       if (typeof window.addthis === 'undefined') {
         return false;
       } else {
@@ -85,7 +95,7 @@
 
     loadAddthisScript: function (callback) {
 
-      var self = this;
+      // var self = this;
 
       // load addthis script (cache:true prevents it from being loaded multiple times)
       $.ajax({
@@ -93,20 +103,13 @@
         cache: true,
         dataType: 'script'
       }).done(function () {
+
         if (typeof callback !== 'undefined') {
           callback.call();
         }
-        // addthis.user.ready(function (data){
-        //   console.log(data);
-        // });
 
-        // window.addthis.addEventListener('addthis.menu.share', self.addthisReady);
       });
 
-    },
-
-    addthisReady: function (e) {
-      console.log(e);
     },
 
     buildAddthisHtml: function (buttons) {
@@ -185,7 +188,6 @@
           boundsHeight = this.$el.height(),
           bounds = boundsHeight - elHeight,
           win = $(window);
-            console.log(el.height());
 
       win.on('scroll', function () {
 
