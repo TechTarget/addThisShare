@@ -11,13 +11,27 @@
 
     $(document).on('ready', function() {
 
-      $('#micrositeHeader').addThisShare();
+      $('#micrositeHeader').addThisShare({
+        addThisButtons: []
+      });
 
       $('#micrositeContent').addThisShare({
         addThisButtons: ['email', 'linkedin', 'facebook', 'twitter'],
         addThisButtonOrientation: 'vertical',
         addThisButtonSize: 'large',
         addThisButtonFollow: true
+      });
+
+      // loads in AddThis Service Metaata
+      $('#serviceMetaData').on('click', function (e) {
+
+        var table = $('#serviceMetaDataTable');
+
+        e.preventDefault();
+
+        // show the table
+        table.slideDown();
+
       });
 
     });
@@ -40,7 +54,15 @@
 
     <div id="micrositeContentColumnFull">
 
-      <p>Lorem ipsum dolor sit amet, iracundia consequat ei est. Ei oratio aperiri nam. Aliquid consulatu vix ea, hinc choro fierent qui ex. In probo nonumy nam, nihil vocent offendit te quo, qui no harum dictas volutpat. Eius dicta at nec. Quo in oporteat suavitate dignissim. Sea legere definitionem ne, aliquip principes consequat vix te, saperet antiopam an mel.</p>
+      <p><a href="#" id="serviceMetaData">AddThis Service Metadata</a></p>
+
+      <table id="serviceMetaDataTable">
+      <thead>
+      <th>asdf</th>
+      </thead>
+      <tbody>
+      </tbody>
+      </table>
 
     </div>
 
@@ -67,13 +89,6 @@
     <div id="micrositeContentColumnRight">
 
       <p>Et vel nihil discere delicata, pro autem fierent definitiones ea. Purto nostro tacimates in sea. Vel ea habeo pertinacia, has amet tollit suavitate te. Et quodsi rationibus cum. In eos dicta sanctus, adhuc civibus ad ius. Duo corrumpit incorrupte cu. Illum molestie mel cu, qui ei prompta bonorum probatus.</p>
-
-      <ul>
-      <li><a href="#">insolens</a></li>
-      <li><a href="#">fierent</a></li>
-      <li><a href="#">nostro</a></li>
-      <li><a href="#">scaevola</a></li>
-      </ul>
 
       <p>Et vel nihil discere delicata, pro autem fierent definitiones ea. Purto nostro tacimates in sea. Vel ea habeo pertinacia, has amet tollit suavitate te. Et quodsi rationibus cum. In eos dicta sanctus, adhuc civibus ad ius. Duo corrumpit incorrupte cu. Illum molestie mel cu, qui ei prompta bonorum probatus.</p>
 
