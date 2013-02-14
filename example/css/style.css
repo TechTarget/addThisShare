@@ -50,6 +50,8 @@ a:focus { color: #2ba6cb; outline: none; }
 #micrositeContent { position: relative; }
 
 #serviceMetaDataTable { display: none; font-size: 11px; }
+#serviceMetaDataTable td, #serviceMetaDataTable { border: 1px solid #333; padding: 2px 5px; }
+#serviceMetaDataTable th { color: #fff; background-color: #333; padding: 4px 0; text-transform: uppercase; }
 
 /* AddThis social sharing component  */
 .socialShare-addThis { position: absolute; z-index: 1; line-height: 0; }

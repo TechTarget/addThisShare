@@ -26,6 +26,7 @@
     addThisButtonOrientation: 'horizontal', // horizontal, vertical
     addThisButtonFollow: false, // enable to allow the buttons to 'follow' while scrolling
     addThisButtonFollowBoundary: '', // pass selector to override default bounds to follow functionality
+    addThisTwitterTemplate: '{{title}} {{url}}', // template for twitter sharing
     googleAnalyticsId: false // include GA Account Id for tracking
   };
 
@@ -55,18 +56,13 @@
         data_ga_social: true
       };
 
-      // window.addthis_share = {
-      //   templates : {
-      //     twitter : '{{title}} {{url}} (via @[Your Twitter Username])'
-      //   }
-      // };
-
       var self = this;
 
       // callback fired after script loaded so should be safe to display
       this.loadAddthisScript( function () {
         if (self.isAddthisLoaded() === true && typeof window.addthis_config === 'undefined') {
           window.addthis_config = self.addThisConfiguration;
+          window.addthis_share = { templates: { twitter: self.options.addThisTwitterTemplate }};
         }
         self.$el.append( self.buildAddthisHtml( self.options.addThisButtons ) );
         if (self.options.addThisButtonFollow) {
@@ -89,6 +85,8 @@
 
     loadAddthisScript: function (callback) {
 
+      var self = this;
+
       // load addthis script (cache:true prevents it from being loaded multiple times)
       $.ajax({
         url: this.addThisScript,
@@ -101,13 +99,14 @@
         // addthis.user.ready(function (data){
         //   console.log(data);
         // });
-        var addthisReady = function (evt) {
-            console.log('AddThis API is fully loaded.');
-            console.log(evt);
-        };
-        window.addthis.addEventListener('addthis.ready', addthisReady);
+
+        // window.addthis.addEventListener('addthis.menu.share', self.addthisReady);
       });
 
+    },
+
+    addthisReady: function (e) {
+      console.log(e);
     },
 
     buildAddthisHtml: function (buttons) {
