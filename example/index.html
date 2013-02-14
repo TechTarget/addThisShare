@@ -5,6 +5,7 @@
   <meta charset="utf-8">
   <title>AddThis Component Tests</title>
   <link rel="stylesheet" href="css/style.css" media="screen" />
+  <link rel="stylesheet" href="http://cache.addthiscdn.com/icons/v1/sprites/services.css" type="text/css" media="screen" charset="utf-8">
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
   <script src="../addThisShare.js"></script>
   <script>
@@ -25,14 +26,68 @@
       // loads in AddThis Service Metaata
       $('#serviceMetaData').on('click', function (e) {
 
-        var table = $('#serviceMetaDataTable');
-
         e.preventDefault();
 
-        // show the table
-        table.slideDown();
+        // remove click handler
+        $(this).off('click').parent('p').remove();
+
+        // get json
+        function getServiceApiJson( ) {
+          return $.ajax({
+            url: 'http://cache.addthiscdn.com/services/v1/sharing.en.jsonp',
+            crossDomain: true,
+            dataType: 'jsonp',
+            jsonp: 'jsonpcallback',
+            jsonpCallback: 'callback'
+          }).pipe(function (data) {
+            return data.data;
+          });
+        }
+
+        getServiceApiJson().done(function (services) {
+
+          // iterrate through json and build table rows
+          for (var i = 0, len = services.length, rows; i < len; i++) {
+            rows += '<tr>'
+            rows += '<td>' + (i+1) + '</td>'
+            rows += '<td>' + services[i].name + '</td>';
+            rows += '<td>' + services[i].code + '</td>';
+            rows += '<td><span class="addthis_service_icon icon_' + services[i].code + '"></span></td>';
+            // rows += '<td><img src="' + services[i].icon + '" height="16" width="16" /></td>';
+            rows += '<td><img src="' + services[i].icon32 + '" height="32" width="32" /></td>';
+            rows += '<td>' + services[i].endpoint + '</td>';
+            rows += '</tr>';
+          }
+
+          // add rows & show the table
+          $('#serviceMetaDataTable').append(rows).show();
+
+        });
+
 
       });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     });
 
@@ -58,10 +113,13 @@
 
       <table id="serviceMetaDataTable">
       <thead>
-      <th>asdf</th>
+      <th>#</th>
+      <th>Name</th>
+      <th>Code</th>
+      <th>Icons</th>
+      <th></th>
+      <th>Endpoint</th>
       </thead>
-      <tbody>
-      </tbody>
       </table>
 
     </div>

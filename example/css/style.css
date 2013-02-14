@@ -49,8 +49,7 @@ a:focus { color: #2ba6cb; outline: none; }
 #micrositeFooter { margin: 0; clear: both; height: 1000px; }
 #micrositeContent { position: relative; }
 
-#serviceMetaDataTable { display: none; }
-
+#serviceMetaDataTable { display: none; font-size: 11px; }
 
 /* AddThis social sharing component  */
 .socialShare-addThis { position: absolute; z-index: 1; line-height: 0; }
