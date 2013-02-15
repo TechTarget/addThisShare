@@ -97,7 +97,9 @@
 
       // var self = this;
 
-      // load addthis script (cache:true prevents it from being loaded multiple times)
+      // load addthis script
+      // cache:true prevents it from being loaded multiple times in the event
+      // of multiple instances of plugin being used on a page
       $.ajax({
         url: this.addThisScript,
         cache: true,

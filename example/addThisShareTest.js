@@ -1,19 +1,52 @@
 var addthisEventHandler = function (e) {
-  console.log(e);
+  // console.log(e);
   var addthisObj = window.addthis;
-  var arr = [];
+  var addThisObjects = [];
+  var addThisFunctions = [];
+  var addThisProperties = [];
   for (var prop in addthisObj) {
 
     if (typeof addthisObj[prop] === 'object') {
-      arr += 'OBJECT: ' + prop + '\n';
-    } if (typeof addthisObj[prop] === 'function') {
-      arr += 'FUNCTION: ' + prop + '\n';
+      addThisObjects.push(prop);
+    } else if (typeof addthisObj[prop] === 'function') {
+      addThisFunctions.push(prop);
     } else {
-      arr += 'PROPERTY: ' + prop + '\n';
+      addThisProperties.push(prop);
     }
 
   }
-  console.log(arr);
+
+  addThisObjects.sort();
+  addThisFunctions.sort();
+  addThisProperties.sort();
+
+  console.group('OBJECTS:');
+
+  for (var i = 0, len = addThisObjects.length, objName; i < len; i++) {
+    objName = addThisObjects[i];
+    console.log(objName + '\n' + '-> ' + addthisObj[ objName ]);
+  }
+
+  console.groupEnd();
+
+  console.groupCollapsed('FUNCTIONS:');
+
+  for (var j = 0, len2 = addThisFunctions.length, funcName; j < len2; j++) {
+    funcName = addThisFunctions[j];
+    console.log(funcName + '\n' + '-> ' + addthisObj[ addThisFunctions[j] ]);
+  }
+
+  console.groupEnd();
+
+  console.groupCollapsed('PROPERTIES:');
+
+  for (var k = 0, len3 = addThisProperties.length, propName; k < len3; k++) {
+    propName = addThisProperties[k];
+    console.log(propName + '\n' + '-> ' + addthisObj[ propName ]);
+  }
+
+  console.groupEnd();
+
 };
 
 var addthisEventListeners = function () {
