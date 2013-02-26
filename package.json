@@ -1,0 +1,8 @@
+{
+  "main": "main",
+  "volo": {
+    "dependencies": {
+      "jquery": "jquery/jquery"
+    }
+  }
+}
