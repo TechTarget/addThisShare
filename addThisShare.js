@@ -52,7 +52,7 @@
         async: true,
         data_track_clickback: false,
         data_track_addressbar: false,
-        data_ga_tracker: window.SITE_gaAccountID || false,
+        data_ga_tracker: this.options.googleAnalyticsId,
         data_ga_social: true
       };
 
@@ -76,6 +76,8 @@
         });
 
       }
+
+      // return this;
 
     },
 

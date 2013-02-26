@@ -65,4 +65,5 @@ var isAddthisLoaded = function () {
   }
 };
 
-isAddthisLoaded();
+// isAddthisLoaded();
+
