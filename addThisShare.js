@@ -1,5 +1,5 @@
 /*!
-* AddThis Share v1.0.3 (http://okize.github.com/)
+* AddThisShare v1.0.5 (http://okize.github.com/)
 * Copyright (c) 2013 | Licensed under the MIT license - http://www.opensource.org/licenses/mit-license.php
 */
 
@@ -32,29 +32,30 @@
 
   // plugin constructor
   var Share = function (element, options) {
-    this.el = element;
+    this.element = element;
+    this.$el = $(this.element); // featured Share component dom container
     this.options = $.extend({}, defaults, options);
+    this._defaults = defaults;
+    this._name = pluginName;
+    this.addThisButtonsContainer = {}; // will hold reference to jq object of buttons parent div
+    this.addThisScript = '//s7.addthis.com/js/' + this.options.addThisApiVersion + '/addthis_widget.js'; // url of addthis script
+    this.addThisConfiguration = {
+      pubid: 'ra-4f0c7ed813520536', // change this to whatever profile should be used
+      url: window.location.pathname,
+      ui_use_css: this.options.addThisCss,
+      domready: true,
+      async: true,
+      data_track_clickback: false,
+      data_track_addressbar: false,
+      data_ga_tracker: this.options.googleAnalyticsId,
+      data_ga_social: true
+    };
     this.init();
   };
 
   Share.prototype = {
 
     init: function() {
-
-      this.$el = $(this.el); // featured Share component dom container
-      this.addThisButtonsContainer = {}; // will hold reference to jq object of buttons parent div
-      this.addThisScript = '//s7.addthis.com/js/' + this.options.addThisApiVersion + '/addthis_widget.js'; // url of addthis script
-      this.addThisConfiguration = {
-        pubid: 'ra-4f0c7ed813520536', // change this to whatever profile should be used
-        url: window.location.pathname,
-        ui_use_css: this.options.addThisCss,
-        domready: true,
-        async: true,
-        data_track_clickback: false,
-        data_track_addressbar: false,
-        data_ga_tracker: this.options.googleAnalyticsId,
-        data_ga_social: true
-      };
 
       var self = this;
 
@@ -77,7 +78,7 @@
 
       }
 
-      // return this;
+      return this;
 
     },
 
@@ -187,7 +188,7 @@
       var el = this.addThisButtonsContainer,
           elOffest = el.offset().top,
           elPadding = 2 * (parseInt( el.css('top'), 0)),
-          elHeight = 178,
+          elHeight = 178, //@todo, this shouldn't be a constant
           adjust,
           boundsHeight = this.$el.height(),
           bounds = boundsHeight - elHeight,
@@ -222,8 +223,7 @@
   $.fn[pluginName] = function ( options ) {
     return this.each(function () {
       if (!$.data(this, 'plugin_' + pluginName)) {
-        $.data(this, 'plugin_' + pluginName,
-          new Share( this, options ));
+        $.data(this, 'plugin_' + pluginName, new Share( this, options ));
       }
     });
   };

@@ -4,8 +4,8 @@
 SCRIPT_NAME = addThisShare
 FILESIZE_MAX = 1500
 FILESIZE_GZIP = `gzip -c ${SCRIPT_NAME}.min.js | wc -c`
-FILESIZE_PASS = "${FILESIZE_GZIP} bytes  \(^_^)/"
-FILESIZE_FAIL = "${FILESIZE_GZIP} bytes  ^(>_<)^"
+FILESIZE_PASS = "${FILESIZE_GZIP} bytes  \_(ツ)_/"
+FILESIZE_FAIL = "${FILESIZE_GZIP} bytes  ಠ_ಠ"
 
 define FILESIZE_CHECK
 	if [ ${FILESIZE_GZIP} -gt ${FILESIZE_MAX} ]; then \
