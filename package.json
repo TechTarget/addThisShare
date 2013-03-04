@@ -1,7 +1,7 @@
 {
   "name": "addThisShare",
   "main": "addThisShare",
-  "description": "a jQuery plugin for social sharing buttons using the AddThis service",
+  "description": "jQuery plugin for social sharing buttons using the AddThis service",
   "version": "1.0.3",
   "author": "Morgan Wigmanich <okize123@gmail.com> (http://github.com/okize)",
   "licenses": [{
