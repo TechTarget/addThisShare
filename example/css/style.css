@@ -57,6 +57,8 @@ a:focus { color: #2ba6cb; outline: none; }
 .socialShare-addThis { display: none; position: absolute; z-index: 1; line-height: 0; }
 .socialShare-addThis a { display: inline-block; margin: 0 0 0 8px; padding: 0 !important; }
 .addThisVertical {
+  position: absolute;
+  top: 20px;
   background: rgb(255,255,255); /* Old browsers */
   background: -moz-linear-gradient(left,  rgba(255,255,255,1) 85%, rgba(221,221,221,1) 100%); /* FF3.6+ */
   background: -webkit-gradient(linear, left top, right top, color-stop(85%,rgba(255,255,255,1)), color-stop(100%,rgba(221,221,221,1))); /* Chrome,Safari4+ */
@@ -70,10 +72,11 @@ a:focus { color: #2ba6cb; outline: none; }
 .addThisVertical.addthis_default_style { width: 36px; left: -36px; }
 .addThisVertical.addthis_20x20_style { width: 40px; left: -40px; }
 .addThisVertical.addthis_32x32_style { width: 52px; left: -52px; }
+.socialShare-outer { position: absolute; width: 100%; }
+.socialShare-inner { margin: 0 auto; position: relative; }
 
-.addThisVertical { *margin-left: -685px; } /* ie7 hack */
+/* .addThisVertical { *margin-left: -685px; } */ /* ie7 hack */
 #micrositeHeader .socialShare-addThis { right: 25px; top: 50px; }
 #micrositeFooter .socialShare-addThis { right: 25px; top: 50px; }
-#micrositeContent .socialShare-addThis { top: 20px; }
 #micrositeContentColumnFull .socialShare-addThis { top: auto !important; bottom: 0; left: 0; background-color: #ccc; padding: 6px 10px; border-radius: 0 6px 0 0;}
 #micrositeContentColumnFull .socialShare-addThis a:first-child { margin: 0; }

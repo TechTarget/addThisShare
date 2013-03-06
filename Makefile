@@ -1,6 +1,3 @@
-# LINT & MINIFY
-# jshint (>=0.9) & uglifyjs (>=2.2) are required
-
 SCRIPT_NAME = addThisShare
 FILESIZE_MAX = 1500
 FILESIZE_GZIP = `gzip -c ${SCRIPT_NAME}.min.js | wc -c`

@@ -38,10 +38,13 @@
     this._defaults = defaults;
     this._name = pluginName;
     this.addThisButtonsContainer = {}; // will hold reference to jq object of buttons parent div
+    this.addThisButtonsContainerHeight = null; // will hold the height of the buttons, which can't be determined until the buttons have loaded async
+    this.addThisButtonFollowLimit = null; // will hold height of 'limit' where the buttons stop following as page scrolls
     this.addThisScript = '//s7.addthis.com/js/' + this.options.addThisApiVersion + '/addthis_widget.js'; // url of addthis script
     this.addThisConfiguration = {
       pubid: 'ra-4f0c7ed813520536', // change this to whatever profile should be used
-      url: window.location.pathname,
+      url: window.location.href,
+      title: window.document.title,
       ui_use_css: this.options.addThisCss,
       domready: true,
       async: true,
@@ -120,7 +123,7 @@
     buildAddthisHtml: function (buttons) {
 
       // all possible services: http://www.addthis.com/services/list
-      var services = {
+      var servicesMap = {
           email: {
             className: 'addthis_button_email',
             title: 'Email A Friend'
@@ -164,8 +167,8 @@
       var addThisButtonHtml = function (buttons) {
         var html = '';
         for (var i = 0, len = buttons.length; i < len; i++) {
-          if (buttons[i] in services) {
-            html += '<a class="' + services[ buttons[i] ].className + '" title="' + services[ buttons[i] ].title + '" href="#"></a>';
+          if (buttons[i] in servicesMap) {
+            html += '<a class="' + servicesMap[ buttons[i] ].className + '" title="' + servicesMap[ buttons[i] ].title + '" href="#"></a>';
           }
         }
         return html;
@@ -185,33 +188,117 @@
 
     initializeFollow: function () {
 
-      var el = this.addThisButtonsContainer,
-          elOffest = el.offset().top,
-          elPadding = 2 * (parseInt( el.css('top'), 0)),
-          elHeight = 178, //@todo, this shouldn't be a constant
-          adjust,
-          boundsHeight = this.$el.height(),
-          bounds = boundsHeight - elHeight,
+      var buttons = this.addThisButtonsContainer,
+          wrapOuter = $('<div>', {
+            'class': 'socialShare-outer'
+          }),
+          wrapInner = $('<div>', {
+            'class': 'socialShare-inner',
+            width: this.$el.width()
+          }),
+          posConst = {
+            cssTop: parseInt(buttons.css('top'), 10), // the original 'top' value set in the css
+            offTop: parseInt(this.$el.offset().top, 10), // the top of the element that the buttons container would normally be in
+            contentHeight: parseInt(this.$el.outerHeight(), 10)
+          },
+          self = this,
           win = $(window);
 
-      win.on('scroll', function () {
+      // ripped from underscore
+      // http://documentcloud.github.com/underscore/#throttle
+      var throttle = function(func, wait) {
+        var context, args, timeout, result;
+        var previous = 0;
+        var later = function() {
+          previous = new Date();
+          timeout = null;
+          result = func.apply(context, args);
+        };
+        return function() {
+          var now = new Date();
+          var remaining = wait - (now - previous);
+          context = this;
+          args = arguments;
+          if (remaining <= 0) {
+            clearTimeout(timeout);
+            timeout = null;
+            previous = now;
+            result = func.apply(context, args);
+          } else if (!timeout) {
+            timeout = setTimeout(later, remaining);
+          }
+          return result;
+        };
+      };
 
-        var getPos = function () {
+      // sets (caches) a couple of variables that we can't set until
+      // this buttons have loaded; unfortunately the AddThis api
+      // doesn't provide an event hook for this
+      var setLimit = function () {
 
-          // this is frustrating
-          // if (typeof elHeight === 'undefined') {
-          //   elHeight = el.height();
-          // }
+        // check if button height has been set yet
+        if (self.addThisButtonsContainerHeight === null) {
+          self.addThisButtonsContainerHeight = buttons.outerHeight();
+        }
 
-          adjust = Math.max(elPadding, win.scrollTop() - (elOffest - elPadding));
-          // bounds = boundsHeight - elHeight;
+        // check if button limit has been set yet
+        if (self.addThisButtonFollowLimit === null) {
+          self.addThisButtonFollowLimit = posConst.contentHeight + posConst.offTop - posConst.cssTop - self.addThisButtonsContainerHeight;
+        }
 
-          return (adjust < bounds) ? adjust : bounds;
+        // self-destruct function
+        setLimit = function(){};
 
+      };
+
+      // determines when the buttons will follow and when they'll stay
+      var updatePosition = function () {
+
+        // toggles the position (fixed or absolute) of wrapOuter
+        // and adjusts the top position of the buttons
+        var adjustCss = function (pos, top) {
+          wrapOuter.css({
+            'position': pos
+          });
+          buttons.css({
+            'top': top + 'px'
+          });
         };
 
-        el.css('top', getPos());
+        // @todo; this can be improved
+        if (posConst.offTop - win.scrollTop() <= 0) {
+          if (self.addThisButtonFollowLimit <= win.scrollTop()) {
+            adjustCss('absolute', self.addThisButtonFollowLimit + posConst.cssTop);
+          } else {
+            adjustCss('fixed', posConst.cssTop);
+          }
+        } else if (posConst.offTop - win.scrollTop() > 0) {
+          adjustCss('absolute', posConst.cssTop + posConst.offTop);
+        }
 
+      };
+
+      // performance improvement by lowering the frequency of scroll events firing
+      var throttled = throttle(updatePosition, 25);
+
+      // move buttons to body top in dom, adjust position top,
+      // add class to container & wrap divs around buttons container
+      buttons
+        .css({
+          'top': posConst.cssTop + posConst.offTop + 'px'
+        })
+        .prependTo('body')
+        .addClass('following')
+        .wrap(wrapOuter)
+        .wrap(wrapInner);
+
+      // reset wrapOuter to hold jq object of itself
+      wrapOuter = $('.socialShare-outer');
+
+      // event handler for scrolling
+      win.on('scroll', function () {
+        setLimit();
+        throttled();
       });
 
     }
