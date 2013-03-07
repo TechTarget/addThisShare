@@ -1,5 +1,5 @@
 /*!
-* AddThisShare v1.0.5 (http://okize.github.com/)
+* AddThisShare v1.0.6 (http://okize.github.com/)
 * Copyright (c) 2013 | Licensed under the MIT license - http://www.opensource.org/licenses/mit-license.php
 */
 
@@ -34,6 +34,7 @@
   var Share = function (element, options) {
     this.element = element;
     this.$el = $(this.element); // featured Share component dom container
+    this.doc = $(window.document);
     this.options = $.extend({}, defaults, options);
     this._defaults = defaults;
     this._name = pluginName;
@@ -53,6 +54,12 @@
       data_ga_tracker: this.options.googleAnalyticsId,
       data_ga_social: true
     };
+    this.addThisShareConfiguration = {
+      templates: {
+        twitter: this.options.addThisTwitterTemplate
+      }
+    };
+    this.addThisScriptCache = {};
     this.init();
   };
 
@@ -62,30 +69,79 @@
 
       var self = this;
 
-      if (!this.isAddThisLoaded) {
+      // load the addthis script
+      $.when(this.loadAddthisScript(this.addThisScript)).then(function () {
 
-        // callback fired after script loaded so should be safe to display
-        this.loadAddthisScript( function () {
-          if (self.isAddthisLoaded() === true && typeof window.addthis_config === 'undefined') {
-            window.addthis_config = self.addThisConfiguration;
-            window.addthis_share = { templates: { twitter: self.options.addThisTwitterTemplate }};
-          }
-          self.$el.append( self.buildAddthisHtml( self.options.addThisButtons ) );
-          if (self.options.addThisButtonFollow) {
-            self.initializeFollow();
-          }
+        // truth in dom
+        self.isAddThisLoaded(true);
 
-          self.addThisButtonsContainer.show();
+        // sets addthis config if it hasn't been already
+        self.setAddThisConfiguration();
 
-        });
+        // creates the buttons from options and then inserts them into the dom
+        self.$el.append( self.buildAddThisHtml( self.options.addThisButtons ) );
 
-      }
+        // displays the buttons after they've been added to the dom
+        self.addThisButtonsContainer.show();
 
-      return this;
+        // initialize 'follow' functionality
+        if (self.options.addThisButtonFollow) {
+          self.initializeFollow();
+        }
+
+      });
 
     },
 
-    isAddthisLoaded: function () {
+    isAddThisLoaded: function (bool) {
+
+      // if argument is passed then function is setter
+      if (arguments.length > 0 && typeof bool === 'boolean') {
+        this.doc.data('addThisScriptLoaded', bool);
+      }
+
+      // truth in dom; if data attr hasn't been set yet, set it
+      if (typeof this.doc.data('addThisScriptLoaded') === 'undefined') {
+        this.doc.data('addThisScriptLoaded', false);
+        return false;
+      }
+
+      return this.doc.data('addThisScriptLoaded');
+
+    },
+
+    setAddThisConfiguration: function() {
+
+      // addthis_config is global to the page so only set it once
+      if (this.isAddThisReady() === true && typeof window.addthis_config === 'undefined') {
+        window.addthis_config = this.addThisConfiguration;
+        window.addthis_share = this.addThisShareConfiguration;
+      }
+
+    },
+
+    loadAddthisScript: function (val) {
+
+      // if cache has been set, return promise form these
+      // else create new jqXHR object and store it in the cache
+      var promise = this.addThisScriptCache[val];
+      if (!promise) {
+
+        promise = $.ajax({
+          url: this.addThisScript,
+          cache: true,
+          dataType: 'script'
+        });
+
+        this.addThisScriptCache[val] = promise;
+
+      }
+
+      return promise;
+
+    },
+
+    isAddThisReady: function () {
 
       // check for global addthis object
       // doesn't seem to be a public method for getting version loaded
@@ -99,28 +155,7 @@
 
     },
 
-    loadAddthisScript: function (callback) {
-
-      // var self = this;
-
-      // load addthis script
-      // cache:true prevents it from being loaded multiple times in the event
-      // of multiple instances of plugin being used on a page
-      $.ajax({
-        url: this.addThisScript,
-        cache: true,
-        dataType: 'script'
-      }).done(function () {
-
-        if (typeof callback !== 'undefined') {
-          callback.call();
-        }
-
-      });
-
-    },
-
-    buildAddthisHtml: function (buttons) {
+    buildAddThisHtml: function (buttons) {
 
       // all possible services: http://www.addthis.com/services/list
       var servicesMap = {
