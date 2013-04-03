@@ -56,6 +56,8 @@ a:focus { color: #2ba6cb; outline: none; }
 /* AddThis social sharing component  */
 .socialShare-addThis { display: none; position: absolute; z-index: 1; line-height: 0; }
 .socialShare-addThis a { display: inline-block; margin: 0 0 0 8px; padding: 0 !important; }
+.socialShare-outer { position: absolute; width: 100%; z-index: 1; }
+.socialShare-inner { margin: 0 auto; position: relative; }
 .addThisVertical {
   position: absolute;
   top: 20px;
@@ -68,14 +70,15 @@ a:focus { color: #2ba6cb; outline: none; }
   background: linear-gradient(to right,  rgba(255,255,255,1) 85%,rgba(221,221,221,1) 100%); /* W3C */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#dddddd',GradientType=1 ); /* IE6-9 */
 }
-.addThisVertical a { display: block; margin: 10px; }
-.addThisVertical.addthis_default_style { width: 36px; left: -36px; }
-.addThisVertical.addthis_20x20_style { width: 40px; left: -40px; }
-.addThisVertical.addthis_32x32_style { width: 52px; left: -52px; }
-.socialShare-outer { position: absolute; width: 100%; }
-.socialShare-inner { margin: 0 auto; position: relative; }
+.addThisVertical a { display: block; margin: 5px; }
+.addThisVertical.addthis_default_style { width: 36px; left: -23px; background: none; }
+.addThisVertical.addthis_20x20_style { width: 40px; left: -61px; }
+.addThisVertical.addthis_20x20_style a { margin: 10px; }
+.addThisVertical.addthis_32x32_style { width: 52px; margin: 10px; left: -62px; }
+.addThisVertical.addthis_32x32_style a { margin: 12px; }
 
-/* .addThisVertical { *margin-left: -685px; } */ /* ie7 hack */
+
+/* testing */
 #micrositeHeader .socialShare-addThis { right: 25px; top: 50px; }
 #micrositeFooter .socialShare-addThis { right: 25px; top: 50px; }
 #micrositeContentColumnFull .socialShare-addThis { top: auto !important; bottom: 0; left: 0; background-color: #ccc; padding: 6px 10px; border-radius: 0 6px 0 0;}

@@ -1,5 +1,5 @@
 /*!
-* AddThisShare v1.0.6 (http://okize.github.com/)
+* AddThisShare v1.0.7 (http://okize.github.com/)
 * Copyright (c) 2013 | Licensed under the MIT license - http://www.opensource.org/licenses/mit-license.php
 */
 
@@ -19,6 +19,7 @@
   // defaults
   var pluginName = 'addThisShare';
   var defaults = {
+    addThisProfileID: false, // change this to whatever profile id should be used (this is global to the page)
     addThisApiVersion: '300', // 300, 250, 200, 150
     addThisButtons: ['email', 'linkedin', 'facebook', 'twitter'], // email, linkedin, facebook, twitter, googleplus, addthis
     addThisCss: true, // set to false to disable addthis styles
@@ -27,7 +28,7 @@
     addThisButtonFollow: false, // enable to allow the buttons to 'follow' while scrolling
     addThisButtonFollowBoundary: '', // pass selector to override default bounds to follow functionality
     addThisTwitterTemplate: '{{title}} {{url}}', // template for twitter sharing
-    googleAnalyticsId: false // include GA Account Id for tracking
+    googleAnalyticsID: false // include GA Account Id for tracking
   };
 
   // plugin constructor
@@ -43,7 +44,7 @@
     this.addThisButtonFollowLimit = null; // will hold height of 'limit' where the buttons stop following as page scrolls
     this.addThisScript = '//s7.addthis.com/js/' + this.options.addThisApiVersion + '/addthis_widget.js'; // url of addthis script
     this.addThisConfiguration = {
-      pubid: 'ra-4f0c7ed813520536', // change this to whatever profile should be used
+      pubid: this.options.addThisProfileID,
       url: window.location.href,
       title: window.document.title,
       ui_use_css: this.options.addThisCss,
@@ -51,7 +52,7 @@
       async: true,
       data_track_clickback: false,
       data_track_addressbar: false,
-      data_ga_tracker: this.options.googleAnalyticsId,
+      data_ga_tracker: this.options.googleAnalyticsID,
       data_ga_social: true
     };
     this.addThisShareConfiguration = {

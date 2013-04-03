@@ -1,5 +1,5 @@
 SCRIPT_NAME = addThisShare
-FILESIZE_MAX = 1500
+FILESIZE_MAX = 2000
 FILESIZE_GZIP = `gzip -c ${SCRIPT_NAME}.min.js | wc -c`
 FILESIZE_PASS = "${FILESIZE_GZIP} bytes  \_(ツ)_/"
 FILESIZE_FAIL = "${FILESIZE_GZIP} bytes  ಠ_ಠ"
