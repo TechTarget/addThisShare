@@ -28,7 +28,7 @@ $(document).on('ready', function() {
 
 $(window).on('load', function() {
 
-  // loads in AddThis Service Metaata
+  // loads in AddThis Service Metadata
   $('#serviceMetaData').on('click', function (e) {
 
     e.preventDefault();
