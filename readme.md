@@ -31,12 +31,12 @@ Large: 32px X 32px
 There is no HTML that needs to be added to the template to initiate this component. Copy the contents of the minified javascript of this plugin into the javascript file already associated with your site. Also copy the function from the example/test.js file for the specific instance of the component that you're adding to the site.
 
 ```javascript
-	$('#micrositeContent').addThisShare({
-  	addThisButtons: ['email', 'linkedin', 'facebook', 'twitter', 'googleplus', 'addthis'],
-  	addThisButtonOrientation: 'vertical',
-  	addThisButtonSize: 'large',
-  	addThisButtonFollow: true
-	});
+$('#micrositeContent').addThisShare({
+  addThisButtons: ['email', 'linkedin', 'facebook', 'twitter', 'googleplus', 'addthis'],
+  addThisButtonOrientation: 'vertical',
+  addThisButtonSize: 'large',
+  addThisButtonFollow: true
+});
 ```
 
 ## CSS
