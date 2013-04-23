@@ -26,7 +26,6 @@
     addThisButtonSize: 'small', // small, medium, large,
     addThisButtonOrientation: 'horizontal', // horizontal, vertical
     addThisButtonFollow: false, // enable to allow the buttons to 'follow' while scrolling
-    addThisButtonFollowBoundary: '', // pass selector to override default bounds to follow functionality
     addThisTwitterTemplate: '{{title}} {{url}}', // template for twitter sharing
     googleAnalyticsID: false // include GA Account Id for tracking
   };

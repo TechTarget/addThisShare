@@ -18,6 +18,9 @@ endef
 
 default:
 
+	@echo '* compiling jade templates...'
+	@jade -P ./example/index.jade
+
 	@echo "* linting..."
 	@jshint ${SCRIPT_NAME}.js --show-non-errors
 
