@@ -1,8 +1,10 @@
+# Required npm modules: jshint (1.1.x) & uglifyjs (2.2.x)
+
 SCRIPT_NAME = addThisShare
-FILESIZE_MAX = 2000
+FILESIZE_MAX = 1000
 FILESIZE_GZIP = `gzip -c ${SCRIPT_NAME}.min.js | wc -c`
-FILESIZE_PASS = "${FILESIZE_GZIP} bytes  \_(ツ)_/"
-FILESIZE_FAIL = "${FILESIZE_GZIP} bytes  ಠ_ಠ"
+FILESIZE_PASS = "${FILESIZE_GZIP} bytes  \(^_^)/"
+FILESIZE_FAIL = "${FILESIZE_GZIP} bytes  ^(>_<)^"
 
 define FILESIZE_CHECK
 	if [ ${FILESIZE_GZIP} -gt ${FILESIZE_MAX} ]; then \
@@ -18,10 +20,13 @@ endef
 
 default:
 
-	@echo '* compiling jade templates...'
+	@echo "* compiling jade templates..."
 	@jade -P ./example/index.jade
 
-	@echo "* linting..."
+	@echo "* compiling sass..."
+	@sass --scss --compass --style expanded ./example/sass/style.scss ./example/css/style.css
+
+	@echo "* linting javascript..."
 	@jshint ${SCRIPT_NAME}.js --show-non-errors
 
 	@echo "* minifying..."
