@@ -1,5 +1,9 @@
 @import "compass/css3/images";
 
+$as-icon-small-width: 16px;
+$as-icon-medium-width: 20px;
+$as-icon-large-width: 32px;
+
 .socialShare-addThis {
   display: none;
   position: absolute;
@@ -14,7 +18,7 @@
 
   &.addThisVertical {
     position: absolute;
-    top: 20px;
+    top: 0;
     background: #fff;
     @include background-image(linear-gradient(left, #fff 85%, #ddd 100%));
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#dddddd',GradientType=1 );
@@ -25,22 +29,25 @@
     }
 
     &.addthis_default_style {
-      width: 36px;
-      left: -23px;
-      background: none;
+      width: $as-icon-small-width + 10;
+      left: -($as-icon-small-width + 10);
+      margin: 0 10px;
+
+      a { margin: 5px; }
+
     }
 
     &.addthis_20x20_style {
-      width: 40px;
-      left: -61px;
+      width: $as-icon-medium-width + 15;
+      left: -($as-icon-medium-width + 17);
 
       a { margin: 10px; }
     }
 
     &.addthis_32x32_style {
-      width: 52px;
+      width: $as-icon-large-width + 20;
+      left: -($as-icon-large-width + 31);
       margin: 10px;
-      left: -62px;
 
       a { margin: 12px; }
     }
