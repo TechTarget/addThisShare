@@ -1,6 +1,7 @@
 /*!
-* AddThisShare v1.0.7 (http://okize.github.com/)
-* Copyright (c) 2013 | Licensed under the MIT license - http://www.opensource.org/licenses/mit-license.php
+* addThisShare v1.0.7 (https://github.com/TechTarget/addThisShare)
+* Copyright (c) 2013 | Licensed under the MIT license
+* http://www.opensource.org/licenses/mit-license.php
 */
 
 // use AMD or browser globals to create a jQuery plugin.
