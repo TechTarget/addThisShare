@@ -1,5 +1,6 @@
 /*!
 * addThisShare v1.0.7 (https://github.com/TechTarget/addThisShare)
+* Author: Morgan Wigmanich <okize123@gmail.com> (http://github.com/okize)
 * Copyright (c) 2013 | Licensed under the MIT license
 * http://www.opensource.org/licenses/mit-license.php
 */
